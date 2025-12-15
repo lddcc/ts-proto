@@ -11,6 +11,7 @@ import ReadStream = NodeJS.ReadStream;
 import { SourceDescription } from "./sourceInfo";
 import { OneofOption, Options, ServiceOption } from "./options";
 import { camelCaseGrpc, maybeSnakeToCamel, snakeToCamel } from "./case";
+import { generateCommonTypes } from "./common-types";
 
 export function protoFilesToGenerate(request: CodeGeneratorRequest): FileDescriptorProto[] {
   return request.protoFile.filter((f) => request.fileToGenerate.includes(f.name));
@@ -56,6 +57,10 @@ export function generateIndexFiles(files: FileDescriptorProto[], options: Option
   }
 
   return indexFiles;
+}
+
+export function generateCommonTypesFile(options: Options): [string, Code] {
+  return ["common-types.ts", generateCommonTypes()];
 }
 
 export function readToBuffer(stream: ReadStream): Promise<Buffer> {

@@ -5,7 +5,7 @@ import {
   FileDescriptorProto,
 } from "ts-proto-descriptors";
 import { promisify } from "util";
-import { generateIndexFiles, getVersions, protoFilesToGenerate, readToBuffer } from "./utils";
+import { generateCommonTypesFile, generateIndexFiles, getVersions, protoFilesToGenerate, readToBuffer } from "./utils";
 import { generateFile, makeUtils } from "./main";
 import { createTypeMap } from "./types";
 import { BaseContext, createFileContext } from "./context";
@@ -72,6 +72,13 @@ async function main() {
       const content = code.toString({ ...getTsPoetOpts(options, tsProtoVersion, protocVersion), path });
       files.push({ name: path, content });
     }
+  }
+
+  // 如果启用了导出公共类型，则生成公共类型文件
+  if (options.exportCommonTypes) {
+    const [path, code] = generateCommonTypesFile(options);
+    const content = code.toString({ ...getTsPoetOpts(options, tsProtoVersion, protocVersion), path });
+    files.push({ name: path, content });
   }
 
   const response = CodeGeneratorResponse.fromPartial({

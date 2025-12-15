@@ -145,6 +145,11 @@ export function generateFile(ctx: Context, fileDesc: FileDescriptorProto): [stri
   const moduleName = fileDesc.name.replace(".proto", suffix);
   const chunks: Code[] = [];
 
+  // 如果启用了导出公共类型，则添加导入语句
+  if (options.exportCommonTypes) {
+    chunks.push(code`import { MessageFns, DeepPartial, Exact, Builtin, KeysOfUnion } from './common-types';`);
+  }
+
   // Indicate this file's source protobuf package for reflective use with google.protobuf.Any
   if (options.exportCommonSymbols) {
     chunks.push(code`export const protobufPackage = '${fileDesc.package}';`);

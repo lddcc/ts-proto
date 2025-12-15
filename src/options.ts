@@ -121,6 +121,7 @@ export type Options = {
   typePrefix: string;
   typeSuffix: string;
   useDuration: DurationOption;
+  exportCommonTypes: boolean;
 };
 
 export function defaultOptions(): Options {
@@ -194,6 +195,7 @@ export function defaultOptions(): Options {
     typePrefix: "",
     typeSuffix: "",
     useDuration: DurationOption.DURATION,
+    exportCommonTypes: false,
   };
 }
 
